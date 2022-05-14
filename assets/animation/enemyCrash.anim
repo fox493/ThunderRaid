@@ -1,14 +1,14 @@
 [
   {
     "__type__": "cc.AnimationClip",
-    "_name": "plane",
+    "_name": "enemyCrash",
     "_objFlags": 0,
     "_native": "",
     "sample": 60,
     "speed": 1,
-    "wrapMode": 2,
+    "wrapMode": 1,
     "enableTrsBlending": false,
-    "_duration": 0.1,
+    "_duration": 0.11666666666666667,
     "_hash": 500763545,
     "_tracks": [
       {
@@ -27,7 +27,7 @@
       }
     },
     "_channel": {
-      "__id__": 4
+      "__id__": 5
     }
   },
   {
@@ -36,8 +36,15 @@
       {
         "__id__": 3
       },
+      {
+        "__id__": 4
+      },
       "spriteFrame"
     ]
+  },
+  {
+    "__type__": "cc.animation.HierarchyPath",
+    "path": "body"
   },
   {
     "__type__": "cc.animation.ComponentPath",
@@ -46,22 +53,32 @@
   {
     "__type__": "cc.animation.Channel",
     "_curve": {
-      "__id__": 5
+      "__id__": 6
     }
   },
   {
     "__type__": "cc.ObjectCurve",
     "_times": [
       0,
-      0.08333333333333333
+      0.03333333333333333,
+      0.06666666666666667,
+      0.1
     ],
     "_values": [
       {
-        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@71501",
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@acefd",
         "__expectedType__": "cc.SpriteFrame"
       },
       {
-        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@3133f",
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@e1e7c",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@efb97",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@5c515",
         "__expectedType__": "cc.SpriteFrame"
       }
     ]

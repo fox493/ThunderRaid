@@ -29,6 +29,9 @@ export class GameManager extends Component {
   private _currentGenEnemyTime = 0
   private _nextEnemy01Time = 0
 
+  //  玩家分数
+  private _score = 0
+
   start() {
     this.generateEnemyPlane01()
   }
@@ -69,6 +72,11 @@ export class GameManager extends Component {
 
   public generateRandomTime(range: number) {
     return Math.random() * range
+  }
+
+  public addScore(score: number) {
+    this._score += score
+    console.log(this._score)
   }
 
   // 随机生成x坐标，传入飞机宽度
