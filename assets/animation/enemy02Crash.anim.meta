@@ -2,12 +2,12 @@
   "ver": "2.0.3",
   "importer": "animation-clip",
   "imported": true,
-  "uuid": "84775603-0c38-4412-9b5e-2fcec120cb09",
+  "uuid": "837fe3e9-5fb1-40c5-90d6-ce497f68c3a2",
   "files": [
     ".cconb"
   ],
   "subMetas": {},
   "userData": {
-    "name": "enemyCrash"
+    "name": "enemy02Crash"
   }
 }

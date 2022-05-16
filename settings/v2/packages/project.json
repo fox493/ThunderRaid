@@ -19,13 +19,18 @@
       {
         "index": 3,
         "name": "BULLET"
+      },
+      {
+        "index": 4,
+        "name": "AIRDROP"
       }
     ],
     "collisionMatrix": {
       "0": 1,
-      "1": 12,
+      "1": 28,
       "2": 10,
-      "3": 6
+      "3": 6,
+      "4": 2
     }
   }
 }

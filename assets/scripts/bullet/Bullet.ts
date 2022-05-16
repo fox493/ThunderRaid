@@ -7,6 +7,7 @@ import {
   IPhysics2DContact,
 } from "cc"
 import { Constant } from "../framework/Constant"
+import { PoolManager } from "../framework/PoolManager"
 const { ccclass, property } = _decorator
 
 const OUT_OF_RANGE = 1140
@@ -14,6 +15,7 @@ const OUT_OF_RANGE = 1140
 export class Bullet extends Component {
   @property
   public bulletSpeed = 0
+
   onEnable() {
     const collider = this.getComponent(Collider2D)
     collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
@@ -29,7 +31,7 @@ export class Bullet extends Component {
     contact: IPhysics2DContact
   ) {
     if (other.group == Constant.collisionType.ENEMY_PLANE) {
-      this.node.destroy()
+      PoolManager.instance().putNode(this.node)
     }
   }
 
@@ -38,7 +40,8 @@ export class Bullet extends Component {
     const movedPos = pos.y + this.bulletSpeed
     this.node.setPosition(pos.x, movedPos)
     if (movedPos > OUT_OF_RANGE) {
-      this.node.destroy()
+      // this.node.destroy()
+      PoolManager.instance().putNode(this.node)
     }
   }
 }

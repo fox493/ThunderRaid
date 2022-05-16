@@ -10,11 +10,7 @@ export class UIMain extends Component {
   public playerPlane: Node = null
   @property(GameManager)
   public gameManager: GameManager = null
-  start() {
-    this.node.on(Input.EventType.TOUCH_START, this._touchStart, this)
-    this.node.on(Input.EventType.TOUCH_MOVE, this._touchMove, this)
-    this.node.on(Input.EventType.TOUCH_END, this._touchEnd, this)
-  }
+  start() {}
 
   private _touchStart(event: EventTouch) {
     this.gameManager.isShooting(true)
@@ -33,5 +29,15 @@ export class UIMain extends Component {
     this.gameManager.isShooting(false)
   }
 
-  update(deltaTime: number) {}
+  update(deltaTime: number) {
+    if (this.gameManager.gameState == "playing") {
+      this.node.on(Input.EventType.TOUCH_START, this._touchStart, this)
+      this.node.on(Input.EventType.TOUCH_MOVE, this._touchMove, this)
+      this.node.on(Input.EventType.TOUCH_END, this._touchEnd, this)
+    } else {
+      this.node.off(Input.EventType.TOUCH_START, this._touchStart, this)
+      this.node.off(Input.EventType.TOUCH_MOVE, this._touchMove, this)
+      this.node.off(Input.EventType.TOUCH_END, this._touchEnd, this)
+    }
+  }
 }

@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.AnimationClip",
-    "_name": "enemyCrash",
+    "_name": "enemy02Crash",
     "_objFlags": 0,
     "_native": "",
     "sample": 60,
@@ -66,11 +66,11 @@
     ],
     "_values": [
       {
-        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@acefd",
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@b8d49",
         "__expectedType__": "cc.SpriteFrame"
       },
       {
-        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@e1e7c",
+        "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@14d43",
         "__expectedType__": "cc.SpriteFrame"
       },
       {

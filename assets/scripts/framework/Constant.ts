@@ -3,5 +3,17 @@ export class Constant {
     PLANE_PLAYER: 1 << 1,
     ENEMY_PLANE: 1 << 2,
     BULLET: 1 << 3,
+    AIRDROP: 1 << 4
+  }
+  public static airdropType = {
+    DOUBLE_BULLET: 1,
+    BOMB: 2
+  }
+  public static gameState = {
+    start: 'start',
+  }
+  public static canvasInfo  = {
+    width: 640,
+    height: 1136
   }
 }

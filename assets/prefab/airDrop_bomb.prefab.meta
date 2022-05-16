@@ -2,12 +2,12 @@
   "ver": "1.1.38",
   "importer": "prefab",
   "imported": true,
-  "uuid": "da7c96c9-e60f-44f1-8815-ec5e0fc4ffea",
+  "uuid": "f448f4fa-b610-454e-ad2b-70328ac0e60d",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "enemyPlane01"
+    "syncNodeName": "airDrop_bomb"
   }
 }
