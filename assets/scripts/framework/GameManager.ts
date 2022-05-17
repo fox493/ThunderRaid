@@ -2,35 +2,29 @@ import {
   _decorator,
   Component,
   Node,
-  Prefab,
-  Sprite,
-  randomRangeInt,
   Button,
-  director,
   SpriteFrame,
-  misc,
+  AudioSource,
+  Label,
 } from "cc"
-import { Bullet } from "../bullet/Bullet"
 import { movingSceneBg } from "../movingSceneBg"
-import { EnemyPlane } from "../plane/EnemyPlane"
+import { SelfPlane } from "../plane/SelfPlane"
+import { AirdropRoot } from "./AirdropRoot"
+import { BulletRoot } from "./BulletRoot"
 import { EnemyRoot } from "./EnemyRoot"
-import { PoolManager } from "./PoolManager"
 const { ccclass, property } = _decorator
 
 @ccclass("GameManager")
 export class GameManager extends Component {
-  @property(Node)
-  public playerPlane: Node = null
-  @property({ group: { name: "bullet01", id: "1" }, type: Prefab })
-  public bullet01: Prefab = null
-  @property({ group: { name: "bullet01", id: "1" } })
-  public shootTime = 0.3
-  @property({ group: { name: "bullet01", id: "1" } })
-  public bulletSpeed = 1
-  @property({ group: { name: "root" }, type: Node })
-  public bulletRoot: Node = null
+  // 子节点配置
+  @property(SelfPlane)
+  public playerPlane:SelfPlane = null
   @property(EnemyRoot)
   public enemyRoot: EnemyRoot = null
+  @property(BulletRoot)
+  public bulletRoot: BulletRoot = null
+  @property(AirdropRoot)
+  public airdropRoot: AirdropRoot = null
 
   // 暂停按钮相关配置
   @property(Button)
@@ -38,6 +32,7 @@ export class GameManager extends Component {
   @property({ type: [SpriteFrame], tooltip: "暂停按钮不同状态下的图片" })
   public btnSprite: SpriteFrame[] = []
 
+  // 滚动背景
   @property(movingSceneBg)
   public background: movingSceneBg = null
 
@@ -49,14 +44,21 @@ export class GameManager extends Component {
   @property(Node)
   public gameEnd: Node = null
 
+  // 游戏中展示分数Label
+  @property(Label)
+  public gameScore: Label = null
+  // 游戏结束分数展示
+  @property(Label)
+  public gameEndScore: Label = null
+
+  // 游戏Bgm
+  public bgm: AudioSource = null
+
   // 游戏的重要逻辑，判断游戏状态，状态有'stop','playing','pause'
   public gameState = "stop"
 
-  private _currentShootTime = 0
-  private _isShooting = false
-
   //  玩家分数
-  private _score = 0
+  public score = 0
 
   /**
    * @description GameManager是控制整个游戏流程的脚本，start是脚本第一次激活触
@@ -67,16 +69,7 @@ export class GameManager extends Component {
     this.gameStart.active = true
     this.gamePlaying.active = false
     this.gameEnd.active = false
-  }
-
-  update(deltaTime: number) {
-    if (this.gameState == "playing") {
-      this._currentShootTime += deltaTime
-      if (this._isShooting && this._currentShootTime > this.shootTime) {
-        this.createPlayerBullet()
-        this._currentShootTime = 0
-      }
-    }
+    this.bgm = this.getComponent(AudioSource)
   }
   // 点击开始游戏执行的函数
   clickToStartGame() {
@@ -84,21 +77,34 @@ export class GameManager extends Component {
     this.gamePlaying.active = true
     this.gameState = "playing"
     this.enemyRoot.startAction()
+    this.airdropRoot.startAction()
+    this.bulletRoot.startAction()
+    // 播放音乐
+    this.bgm.play()
   }
-  // 游戏暂停
+
+  // 游戏暂停或恢复
   gamePause() {
     if (this.gameState == "playing") {
       this.gameState = "pause"
       this.enemyRoot.pauseAction()
+      this.airdropRoot.pauseAction()
+      this.bulletRoot.pauseAction()
       this.background.pauseAction()
+      this.playerPlane.offDrag()
       this.pauseBtn.normalSprite = this.btnSprite[2]
       this.pauseBtn.pressedSprite = this.btnSprite[3]
+      this.bgm.pause()
     } else {
       this.gameState = "playing"
       this.enemyRoot.resumeAction()
+      this.airdropRoot.resumeAction()
+      this.bulletRoot.resumeAction()
       this.background.resumeAction()
+      this.playerPlane.offDrag()
       this.pauseBtn.normalSprite = this.btnSprite[0]
       this.pauseBtn.pressedSprite = this.btnSprite[1]
+      this.bgm.play()
     }
   }
 
@@ -106,47 +112,34 @@ export class GameManager extends Component {
   gameRestart() {
     this.gamePlaying.active = true
     this.gameEnd.active = false
+    this.bgm.play()
   }
 
   // 游戏结束
   gameOver() {
     this.gamePlaying.active = false
     this.gameEnd.active = true
+    // 清理节点下挂载的对象
     this.enemyRoot.node.removeAllChildren()
-    this.playerPlane.setPosition(5, -310)
+    this.bulletRoot.overAction()
+    this.airdropRoot.overAction()
+    // 重置玩家飞机位置
+    this.playerPlane.node.setPosition(5, -310)
+    // bgm停止
+    this.bgm.stop()
+    // 分数清零
+    this.gameEndScore.string = "本局得分:" + this.score.toString()
+    this.gameScore.string = "Score:0"
+    this.score = 0
   }
 
-  public createPlayerBullet() {
-    // const bullet = instantiate(this.bullet01)
-    const bullet = PoolManager.instance().getNode(
-      this.bullet01,
-      this.bulletRoot
-    )
-    const pos = this.playerPlane.position
-    bullet.setPosition(pos.x, pos.y + 80)
-    const bulletComp = bullet.getComponent(Bullet)
-    bulletComp.bulletSpeed = this.bulletSpeed
+  // 改变子弹类型
+  changeBulletType() {
+    this.bulletRoot.changeBulletType()
   }
 
-  public addScore(score: number) {
-    this._score += score
-    console.log(this._score)
-  }
-  public changeBullet() {
-    console.log("改变子弹类型")
-  }
-
-  public bomb() {
-    console.log("炸弹来啦")
-  }
-  // 随机生成x坐标，传入飞机宽度
-  public generateRandomX(width: number) {
-    const range = 320 - width
-    const rand = randomRangeInt(-range, range)
-    return rand
-  }
-
-  public isShooting(value: boolean) {
-    this._isShooting = value
+  addScore(score: number) {
+    this.score += score
+    this.gameScore.string = "Score:" + this.score.toString()
   }
 }

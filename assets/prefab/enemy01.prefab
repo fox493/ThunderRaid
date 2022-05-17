@@ -236,8 +236,10 @@
     "__prefab": {
       "__id__": 11
     },
-    "speed": 3,
+    "min_speed": 5,
+    "max_speed": 7,
     "initHp": 1,
+    "score": 1,
     "initSprite": {
       "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@eb09c",
       "__expectedType__": "cc.SpriteFrame"

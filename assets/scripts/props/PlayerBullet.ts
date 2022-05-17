@@ -6,15 +6,18 @@ import {
   Collider2D,
   IPhysics2DContact,
 } from "cc"
+import { BulletRoot } from "../framework/BulletRoot"
 import { Constant } from "../framework/Constant"
 import { PoolManager } from "../framework/PoolManager"
 const { ccclass, property } = _decorator
 
 const OUT_OF_RANGE = 1140
-@ccclass("Bullet")
-export class Bullet extends Component {
+@ccclass("PlayerBullet")
+export class PlayerBullet extends Component {
   @property
   public bulletSpeed = 0
+
+  public bulletRoot: BulletRoot = null
 
   onEnable() {
     const collider = this.getComponent(Collider2D)
@@ -25,6 +28,11 @@ export class Bullet extends Component {
     const collider = this.getComponent(Collider2D)
     collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
   }
+
+  onLoad() {
+    this.bulletRoot =  this.node.parent.getComponent(BulletRoot)
+  }
+
   private _onBeginContact(
     self: Collider2D,
     other: Collider2D,
@@ -36,6 +44,7 @@ export class Bullet extends Component {
   }
 
   update(deltaTime: number) {
+    if(this.bulletRoot.isStop) return
     const pos = this.node.position
     const movedPos = pos.y + this.bulletSpeed
     this.node.setPosition(pos.x, movedPos)

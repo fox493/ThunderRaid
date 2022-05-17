@@ -1,4 +1,12 @@
-import { _decorator, Component, Node, NodePool, Prefab, instantiate, Pool } from "cc"
+import {
+  _decorator,
+  Component,
+  Node,
+  NodePool,
+  Prefab,
+  instantiate,
+  Pool,
+} from "cc"
 const { ccclass, property } = _decorator
 
 interface IDictPool {
@@ -28,19 +36,13 @@ export class PoolManager {
     const pool = this._dictPool[name]
     if (pool) {
       if (pool.size() > 0) {
-        console.log(
-          `${name}池中取出新的节点，节点池容量为：${PoolManager._instance._dictPool[name].size()}`
-        )
-
         node = pool.get()
       } else {
         node = instantiate(prefab)
-        console.log("实例化了节点，消耗性能")
       }
     } else {
       this._dictPool[name] = new NodePool()
       node = instantiate(prefab)
-      console.log("实例化了节点，消耗性能")
     }
 
     node.parent = parent
@@ -53,9 +55,6 @@ export class PoolManager {
     node.parent = null
     if (!this._dictPool[name]) this._dictPool[name] = new NodePool()
     this._dictPool[name].put(node)
-    console.log(
-      `${name}池中放入新的节点，节点池容量为：${PoolManager._instance._dictPool[name].size()}`
-    )
   }
 
   start() {}

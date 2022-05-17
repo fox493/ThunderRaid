@@ -16,4 +16,12 @@ export class Constant {
     width: 640,
     height: 1136
   }
+
+  // 游戏分数决定等级
+  public static gameStage = {
+    level_1: 200,
+    level_2: 500,
+    level_3: 1000,
+    level_4: 2000
+  }
 }

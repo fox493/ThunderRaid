@@ -223,23 +223,6 @@
     "fileId": "dbi/l6UttPRJrCJUgqBaM5"
   },
   {
-    "__type__": "c8a24xxXNxCMIroB10uLBuC",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 11
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "39/bEvAUVEyIcVA5MPja43"
-  },
-  {
     "__type__": "cc.BoxCollider2D",
     "_name": "",
     "_objFlags": 0,
@@ -248,7 +231,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 13
+      "__id__": 11
     },
     "tag": 0,
     "_group": 16,
@@ -271,6 +254,26 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "1cfIQBfN5DM5vZX41FUlBp"
+  },
+  {
+    "__type__": "aa3c5SWK+ZNlYn0ThX8YRbI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "min_speed": 2,
+    "max_speed": 5,
+    "type": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "3d2KXJMZlKLK89F6qFstqM"
   },
   {
     "__type__": "cc.PrefabInfo",
