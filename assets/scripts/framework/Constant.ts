@@ -13,15 +13,15 @@ export class Constant {
     start: 'start',
   }
   public static canvasInfo  = {
-    width: 640,
-    height: 1136
+    width: 752,
+    height: 1334
   }
 
   // 游戏分数决定等级
   public static gameStage = {
-    level_1: 200,
-    level_2: 500,
-    level_3: 1000,
-    level_4: 2000
+    level_1: 100,
+    level_2: 250,
+    level_3: 500,
+    level_4: 1000
   }
 }

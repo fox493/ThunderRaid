@@ -8,7 +8,6 @@ import {
   Label,
 } from "cc"
 import { movingSceneBg } from "../movingSceneBg"
-import { SelfPlane } from "../plane/SelfPlane"
 import { AirdropRoot } from "./AirdropRoot"
 import { BulletRoot } from "./BulletRoot"
 import { EnemyRoot } from "./EnemyRoot"
@@ -17,8 +16,8 @@ const { ccclass, property } = _decorator
 @ccclass("GameManager")
 export class GameManager extends Component {
   // 子节点配置
-  @property(SelfPlane)
-  public playerPlane:SelfPlane = null
+  @property(Node)
+  public playerPlane: Node = null
   @property(EnemyRoot)
   public enemyRoot: EnemyRoot = null
   @property(BulletRoot)
@@ -50,6 +49,8 @@ export class GameManager extends Component {
   // 游戏结束分数展示
   @property(Label)
   public gameEndScore: Label = null
+  @property(Label)
+  public bombAmountLabel: Label = null
 
   // 游戏Bgm
   public bgm: AudioSource = null
@@ -59,6 +60,9 @@ export class GameManager extends Component {
 
   //  玩家分数
   public score = 0
+
+  // 炸弹数量
+  public bombAmount = 0
 
   /**
    * @description GameManager是控制整个游戏流程的脚本，start是脚本第一次激活触
@@ -91,7 +95,6 @@ export class GameManager extends Component {
       this.airdropRoot.pauseAction()
       this.bulletRoot.pauseAction()
       this.background.pauseAction()
-      this.playerPlane.offDrag()
       this.pauseBtn.normalSprite = this.btnSprite[2]
       this.pauseBtn.pressedSprite = this.btnSprite[3]
       this.bgm.pause()
@@ -101,7 +104,6 @@ export class GameManager extends Component {
       this.airdropRoot.resumeAction()
       this.bulletRoot.resumeAction()
       this.background.resumeAction()
-      this.playerPlane.offDrag()
       this.pauseBtn.normalSprite = this.btnSprite[0]
       this.pauseBtn.pressedSprite = this.btnSprite[1]
       this.bgm.play()
@@ -110,32 +112,57 @@ export class GameManager extends Component {
 
   // 游戏重启
   gameRestart() {
+    this.gameState = "playing"
     this.gamePlaying.active = true
     this.gameEnd.active = false
+    this.enemyRoot.startAction()
+    this.airdropRoot.startAction()
     this.bgm.play()
+  }
+
+  // 返回主页
+  returnMain() {
+    this.gameState = "stop"
+    this.gameEnd.active = false
+    this.gameStart.active = true
   }
 
   // 游戏结束
   gameOver() {
+    this.gameState = "stop"
     this.gamePlaying.active = false
     this.gameEnd.active = true
     // 清理节点下挂载的对象
     this.enemyRoot.node.removeAllChildren()
     this.bulletRoot.overAction()
     this.airdropRoot.overAction()
+    this.enemyRoot.overAction()
     // 重置玩家飞机位置
-    this.playerPlane.node.setPosition(5, -310)
+    this.playerPlane.setPosition(5, -310)
     // bgm停止
     this.bgm.stop()
     // 分数清零
     this.gameEndScore.string = "本局得分:" + this.score.toString()
     this.gameScore.string = "Score:0"
     this.score = 0
+    // 炸弹数量清零
+    this.bombAmount = 0
+    this.bombAmountLabel.string = "x 0"
   }
 
   // 改变子弹类型
   changeBulletType() {
     this.bulletRoot.changeBulletType()
+  }
+
+  // 获得炸弹
+  addBomb() {
+    this.bombAmountLabel.string = `x ${++this.bombAmount}`
+  }
+
+  // 减少炸弹
+  subBomb() {
+    this.bombAmountLabel.string = `x ${--this.bombAmount}`
   }
 
   addScore(score: number) {

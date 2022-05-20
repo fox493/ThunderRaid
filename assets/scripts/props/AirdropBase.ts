@@ -1,7 +1,6 @@
 import {
   _decorator,
   Component,
-  Node,
   Contact2DType,
   Collider2D,
   IPhysics2DContact,
@@ -12,7 +11,7 @@ import { Constant } from "../framework/Constant"
 import { PoolManager } from "../framework/PoolManager"
 const { ccclass, property } = _decorator
 
-const OUT_RANGE = -655
+const OUT_RANGE = -Constant.canvasInfo.height / 2
 @ccclass("AirdropBase")
 export class AirdropBase extends Component {
   @property

@@ -50,13 +50,7 @@ export class AirdropRoot extends Component {
   }
   overAction() {
     this.node.removeAllChildren()
-    for (let i = 0; i < this.airdropGroup.length; i++) {
-      const fName = "callback_" + i
-      this[fName] = function (e: number) {
-        this.generateNewAirdrop(this.airdropGroup[e])
-      }.bind(this, i)
-      this.unschedule(this[fName])
-    }
+    this.unscheduleAllCallbacks()
   }
   generateNewAirdrop(airdrop: Airdrop) {
     if (this.isStop) return

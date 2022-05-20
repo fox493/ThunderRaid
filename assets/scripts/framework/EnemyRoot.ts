@@ -51,6 +51,12 @@ export class EnemyRoot extends Component {
     this.isStop = false
   }
 
+  // 游戏结束
+  overAction() {
+    this.node.removeAllChildren()
+    this.unscheduleAllCallbacks()
+  }
+
   // 将死亡敌机分数传入gameManager
   addScore(score: number) {
     this.gameManager.addScore(score)
@@ -100,9 +106,19 @@ export class EnemyRoot extends Component {
   generateRandomPos(enemy: Node) {
     const width = enemy.getComponent(UITransform).width
     const height = enemy.getComponent(UITransform).height
-    const range = Constant.canvasInfo.width / 2 - width
+    const range = Constant.canvasInfo.width / 2 - width - 10
     const x = randomRangeInt(-range, range)
     const y = Constant.canvasInfo.height / 2 + height
     return v2(x, y)
+  }
+
+  // 炸弹清除所有敌机
+  clearAllEnemies() {
+    if (!this.gameManager.bombAmount) return
+    const enemies = this.node.children
+    for (let enemy of enemies) {
+      enemy.getComponent(EnemyPlane).enemyDestroyed()
+    }
+    this.gameManager.subBomb()
   }
 }

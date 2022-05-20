@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "airDrop_double_bullet",
+    "_name": "airDrop_bomb",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -129,8 +129,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 58,
-      "height": 88
+      "width": 60,
+      "height": 103
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -166,7 +166,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@c481c",
+      "__uuid__": "a753e73b-2255-4c38-9ff8-cb19794f12a9@fee87",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,

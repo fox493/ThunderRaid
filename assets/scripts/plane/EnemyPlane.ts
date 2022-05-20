@@ -9,15 +9,15 @@ import {
   SpriteFrame,
   AudioSource,
   Sprite,
-  randomRangeInt,
   randomRange,
+  BoxCollider2D,
 } from "cc"
 import { Constant } from "../framework/Constant"
 import { EnemyRoot } from "../framework/EnemyRoot"
 import { PoolManager } from "../framework/PoolManager"
 const { ccclass, property } = _decorator
 
-const OUT_RANGE = -655
+const OUT_RANGE = -Constant.canvasInfo.height / 2
 @ccclass("EnemyPlane")
 export class EnemyPlane extends Component {
   @property
@@ -57,15 +57,12 @@ export class EnemyPlane extends Component {
   ) {
     if (other.group == Constant.collisionType.BULLET) {
       const anim = this.getComponent(Animation)
-      const audio = this.getComponent(AudioSource)
       if (this.hp > 0) {
         this.hp--
       } else return
       if (anim.clips[1]) anim.play(anim.clips[1].name)
       if (this.hp <= 0) {
-        anim.play(anim.clips[0].name)
-        anim.on("finished", this._onFinished, this)
-        audio.playOneShot(audio.clip, 0.2)
+        this.enemyDestroyed()
       }
     }
   }
@@ -75,6 +72,17 @@ export class EnemyPlane extends Component {
     let sprite = this.getComponentInChildren(Sprite)
     sprite.spriteFrame = this.initSprite
     this.hp = this.initHp
+    this.getComponent(BoxCollider2D).enabled = true
+  }
+
+  public enemyDestroyed() {
+    this.hp = 0
+    const anim = this.getComponent(Animation)
+    const audio = this.getComponent(AudioSource)
+    this.getComponent(BoxCollider2D).enabled = false
+    anim.play(anim.clips[0].name)
+    anim.on("finished", this._onFinished, this)
+    audio.playOneShot(audio.clip, 0.2)
   }
 
   private _onFinished() {

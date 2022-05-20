@@ -16,11 +16,11 @@ const { ccclass, property } = _decorator
 export class SelfPlane extends Component {
   @property(GameManager)
   public gameManager: GameManager = null
-  public speed = 1
+  public speed = 0.8
   onEnable() {
     const collider = this.getComponent(Collider2D)
     collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
-    this.onDrag()
+    // this.node.on(Input.EventType.TOUCH_MOVE, this._touchMove, this)
   }
 
   onDisable() {
@@ -28,13 +28,8 @@ export class SelfPlane extends Component {
     collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
   }
 
-  onDrag() {
-    this.node.on(Input.EventType.TOUCH_MOVE, this._touchMove, this)
-  }
-  offDrag() {
-    this.node.off(Input.EventType.TOUCH_MOVE, this._touchMove, this)
-  }
   private _touchMove(event: EventTouch) {
+    if (this.gameManager.gameState == "pause") return
     const delta = event.getDelta()
     let pos = this.node.position
     this.node.setPosition(
@@ -52,13 +47,14 @@ export class SelfPlane extends Component {
       anim.play()
       anim.on("finished", this.gameEnd, this)
     } else if (other.group == Constant.collisionType.AIRDROP) {
-      this.gameManager.changeBulletType()
+      if (other.name == "airDrop_double_bullet<BoxCollider2D>")
+        this.gameManager.changeBulletType()
+        else
+        this.gameManager.addBomb()
     }
   }
 
   gameEnd() {
     this.gameManager.gameOver()
   }
-
-  update(deltaTime: number) {}
 }
