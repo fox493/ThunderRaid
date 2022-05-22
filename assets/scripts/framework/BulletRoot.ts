@@ -24,6 +24,8 @@ export class BulletRoot extends Component {
   public gameManagerNode: Node = null
   // 子弹速度
   public fireSpeed: number = 0
+  // 初始速度
+  public initFireSpeed: number = 0
   // 判断当前游戏状态
   public isStop = false
   // 双倍子弹
@@ -34,6 +36,7 @@ export class BulletRoot extends Component {
    */
   startAction() {
     this.fireSpeed = this.bulletGroup[0].fireSpeed
+    this.initFireSpeed = this.fireSpeed
     for (let i = 0; i < this.bulletGroup.length; i++) {
       const fName = "callback_" + i
       this[fName] = function (e: number) {
@@ -55,6 +58,7 @@ export class BulletRoot extends Component {
   overAction() {
     this.node.removeAllChildren()
     this.doubleBullet = 0
+    this.fireSpeed = this.initFireSpeed
   }
 
   fire(bulletInfo: Bullet) {
