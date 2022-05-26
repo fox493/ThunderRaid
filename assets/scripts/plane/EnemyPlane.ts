@@ -44,7 +44,7 @@ export class EnemyPlane extends Component {
 
   onDisable() {
     const collider = this.getComponent(Collider2D)
-    collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
+    collider.off(Contact2DType.BEGIN_CONTACT, this._onBeginContact, this)
   }
   onLoad() {
     this.enemyRoot = this.node.parent.getComponent(EnemyRoot)

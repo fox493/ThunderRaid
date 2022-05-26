@@ -15,7 +15,7 @@ const { ccclass, property } = _decorator
 
 @ccclass("GameManager")
 export class GameManager extends Component {
-  // 子节点配置
+  // 预制控制节点配置
   @property(Node)
   public playerPlane: Node = null
   @property(EnemyRoot)
